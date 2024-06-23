@@ -1,16 +1,38 @@
 // Initialize Three.js scenes for different sections
-function initScene(containerId, color) {
+function initScene(containerId, modelType) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 2 / 400, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth / 2, 400);
     document.getElementById(containerId).appendChild(renderer.domElement);
 
-    // Create a 3D model (Icosahedron) and add it to the scene
-    const geometry = new THREE.IcosahedronGeometry(1, 0);
-    const material = new THREE.MeshStandardMaterial({ color: color, flatShading: true });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    // Function to create different plant models
+    function createModel(type) {
+        switch(type) {
+            case 'cube':
+                return new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x00ff00 }));
+            case 'leaf':
+                const leafGeometry = new THREE.PlaneGeometry(1, 2);
+                const leafMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+                const leaf = new THREE.Mesh(leafGeometry, leafMaterial);
+                leaf.rotation.x = Math.PI / 2;
+                return leaf;
+            case 'stem':
+                return new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 32), new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
+            case 'root':
+                const rootGeometry = new THREE.ConeGeometry(0.5, 2, 32);
+                const rootMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
+                const root = new THREE.Mesh(rootGeometry, rootMaterial);
+                root.rotation.x = Math.PI;
+                return root;
+            default:
+                return new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x00ff00 }));
+        }
+    }
+
+    // Create and add model to the scene
+    const model = createModel(modelType);
+    scene.add(model);
 
     // Add lights
     const pointLight = new THREE.PointLight(0xffffff, 1, 100);
@@ -24,7 +46,7 @@ function initScene(containerId, color) {
 
     // Add OrbitControls for interactivity
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.screenSpacePanning = false;
     controls.minDistance = 2;
@@ -34,8 +56,8 @@ function initScene(containerId, color) {
     // Animation loop
     function animate() {
         requestAnimationFrame(animate);
-        mesh.rotation.x += 0.01;
-        mesh.rotation.y += 0.01;
+        model.rotation.x += 0.01;
+        model.rotation.y += 0.01;
         controls.update();
         renderer.render(scene, camera);
     }
@@ -45,14 +67,15 @@ function initScene(containerId, color) {
 
 // Initialize animations for different sections
 document.addEventListener("DOMContentLoaded", function() {
-    initScene("animation-container", 0x00ff00);
-    initScene("divisio-animation", 0x0000ff);
-    initScene("peranan-animation", 0xff0000);
+    initScene("animation-container", 'cube');
+    initScene("divisio-animation", 'leaf');
+    initScene("peranan-animation", 'stem');
+    initScene("anatomy-animation", 'root');
 });
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    const containers = ['animation-container', 'divisio-animation', 'peranan-animation'];
+    const containers = ['animation-container', 'divisio-animation', 'peranan-animation', 'anatomy-animation'];
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
