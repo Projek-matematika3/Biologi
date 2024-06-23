@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", function() {
+    initScene("animation-container", 'tree');
+    initScene("divisio-animation", 'leaf');
+    initScene("peranan-animation", 'stem');
+    initScene("anatomy-animation", 'root');
+});
+
 // Initialize Three.js scenes for different sections
 function initScene(containerId, modelType) {
     const scene = new THREE.Scene();
@@ -70,14 +77,6 @@ function initScene(containerId, modelType) {
 
     animate();
 }
-
-// Initialize animations for different sections
-document.addEventListener("DOMContentLoaded", function() {
-    initScene("animation-container", 'tree');
-    initScene("divisio-animation", 'leaf');
-    initScene("peranan-animation", 'stem');
-    initScene("anatomy-animation", 'root');
-});
 
 // Handle window resize
 window.addEventListener('resize', () => {
