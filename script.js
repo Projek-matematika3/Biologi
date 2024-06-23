@@ -85,7 +85,22 @@ window.addEventListener('resize', () => {
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
-            container.querySelector('canvas').style.width = window.innerWidth / 2 + 'px';
+            const canvas = container.querySelector('canvas');
+            if (canvas) {
+                canvas.style.width = window.innerWidth / 2 + 'px';
+            }
         }
     });
 });
+
+// Function to toggle dark mode
+function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+}
+
+// Event listener for dark mode toggle button
+const darkModeButton = document.getElementById('dark-mode-toggle');
+if (darkModeButton) {
+    darkModeButton.addEventListener('click', toggleDarkMode);
+}
