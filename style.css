@@ -2,7 +2,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f8ff;
+    background-color: #e7f9e7;
     color: #333;
 }
 
@@ -17,6 +17,7 @@ header {
 header h1 {
     font-size: 2.5em;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 nav ul {
@@ -47,16 +48,17 @@ nav ul li a:hover {
 }
 
 .section:nth-child(odd) {
-    background-color: #e9f7ef;
+    background-color: #e0ffe0;
 }
 
 .section:nth-child(even) {
-    background-color: #d4efdf;
+    background-color: #ccffcc;
 }
 
 .section h2 {
     font-size: 2em;
     margin-bottom: 1em;
+    color: #2e7d32;
 }
 
 .content {
