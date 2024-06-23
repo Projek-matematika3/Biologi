@@ -9,8 +9,6 @@ function initScene(containerId, modelType) {
     // Function to create different plant models
     function createModel(type) {
         switch(type) {
-            case 'cube':
-                return new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x00ff00 }));
             case 'leaf':
                 const leafGeometry = new THREE.PlaneGeometry(1, 2);
                 const leafMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
@@ -25,6 +23,14 @@ function initScene(containerId, modelType) {
                 const root = new THREE.Mesh(rootGeometry, rootMaterial);
                 root.rotation.x = Math.PI;
                 return root;
+            case 'tree':
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 3, 32), new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
+                const foliage = new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), new THREE.MeshStandardMaterial({ color: 0x00ff00 }));
+                foliage.position.y = 2.5;
+                const tree = new THREE.Group();
+                tree.add(trunk);
+                tree.add(foliage);
+                return tree;
             default:
                 return new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x00ff00 }));
         }
@@ -67,7 +73,7 @@ function initScene(containerId, modelType) {
 
 // Initialize animations for different sections
 document.addEventListener("DOMContentLoaded", function() {
-    initScene("animation-container", 'cube');
+    initScene("animation-container", 'tree');
     initScene("divisio-animation", 'leaf');
     initScene("peranan-animation", 'stem');
     initScene("anatomy-animation", 'root');
